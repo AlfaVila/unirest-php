@@ -396,14 +396,14 @@ class Request
         self::$handle = curl_init();
 
         if ($method !== Method::GET) {
-			if ($method === Method::POST) {
-				curl_setopt(self::$handle, CURLOPT_POST, true);
-			} else {
-                 if ($method === Method::HEAD) {
+            if ($method === Method::POST) {
+                curl_setopt(self::$handle, CURLOPT_POST, true);
+            } else {
+                if ($method === Method::HEAD) {
                     curl_setopt(self::$handle, CURLOPT_NOBODY, true);
-                 }
-				curl_setopt(self::$handle, CURLOPT_CUSTOMREQUEST, $method);
-			}
+                }
+                curl_setopt(self::$handle, CURLOPT_CUSTOMREQUEST, $method);
+            }
 
             curl_setopt(self::$handle, CURLOPT_POSTFIELDS, $body);
         } elseif (is_array($body)) {
@@ -555,12 +555,12 @@ class Request
             $query = '?' . http_build_query(self::getArrayFromQuerystring($query));
         }
 
-        if ($port && $port[0] !== ':') {
+        $port = (string)$port;
+        if ('' !== $port && ':' !== $port[0]) {
             $port = ':' . $port;
         }
 
-        $result = $scheme . $host . $port . $path . $query;
-        return $result;
+        return $scheme . $host . $port . $path . $query;
     }
 
     private static function getHeaderString($key, $val)
